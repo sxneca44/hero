@@ -1,5 +1,4 @@
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -10,8 +9,12 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Game {
-    private int x = 10;
-    private int y = 10;
+
+    private Game hero;
+
+    public void Hero(int i, int i1) {
+        Hero hero = new Hero(10, 10);
+    }
     private Screen screen;
 
     public Game() {
@@ -19,19 +22,19 @@ public class Game {
             TerminalSize terminalSize = new TerminalSize(40, 20);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
             Terminal terminal = terminalFactory.createTerminal();
-            this.screen = new TerminalScreen(terminal);
-            this.screen.setCursorPosition(null); // we don't need a cursor
-            this.screen.startScreen(); // screens must be started
-            this.screen.doResizeIfNecessary(); // resize screen if necessary
+            screen = new TerminalScreen(terminal);
+            screen.setCursorPosition(null);
+            screen.startScreen();
+            screen.doResizeIfNecessary();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void draw() throws IOException {
-        this.screen.clear();
-        this.screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
-        this.screen.refresh();
+        screen.clear();
+        hero.draw();
+        screen.refresh();
     }
 
 
@@ -48,32 +51,44 @@ public class Game {
 
     private void processKey(KeyStroke key) throws IOException {
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'w') {
-            y = y - 1;
+            moveUp();
                     }
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 's') {
-            y = y + 1;
+            moveDown();
         }
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'd') {
-            x = x + 1;
+            moveRight();
         }
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'a') {
-            x = x - 1;
+            moveLeft();
         }
         if (key.getKeyType() == KeyType.ArrowUp) {
-            y = y - 1;
+            moveUp();
         }
         if (key.getKeyType() == KeyType.ArrowDown) {
-            y = y + 1;
+            moveDown();
         }
         if (key.getKeyType() == KeyType.ArrowRight) {
-            x = x + 1;
+            moveRight();
         }
         if (key.getKeyType() == KeyType.ArrowLeft) {
-            x = x - 1;
+            moveLeft();
         }
         if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
             screen.close();
         }
 
+    }
+
+    private void moveLeft() {
+    }
+
+    private void moveRight() {
+    }
+
+    private void moveDown() {
+    }
+
+    private void moveUp() {
     }
 }
