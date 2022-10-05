@@ -1,3 +1,5 @@
+package com.sxneca44.hero;
+
 import java.io.IOException;
 
 public class Application {
