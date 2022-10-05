@@ -8,15 +8,18 @@ import java.io.IOException;
 
 
 public class Hero {
+    public Position getPosition() {
+        return this.position;
+    }
+
     private Position position;
 
     public Hero(int x, int y)
     {
         this.position = new Position(x, y);
     }
-    public void setPosition(Position p){
-        position.setX(p.getX());
-        position.setY(p.getY());
+    public void setPosition(Position position){
+        this.position = position;
     }
     public Position moveUp(){
         return new Position(position.getX(), position.getY()-1);

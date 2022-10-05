@@ -12,71 +12,34 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-
-    private Hero hero;
-    public Game() {
-        try {
-            hero = new Hero(10,10);
-            TerminalSize terminalSize = new TerminalSize(40, 20);
-            DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
-            Terminal terminal = terminalFactory.createTerminal();
-            screen = new TerminalScreen(terminal);
-            screen.setCursorPosition(null);
-            screen.startScreen();
-            screen.doResizeIfNecessary();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private Arena arena;
+    public Game() throws IOException {
+        arena = new Arena(40, 50);
+        TerminalSize terminalSize = new TerminalSize(40, 20);
+        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
+        Terminal terminal = terminalFactory.createTerminal();
+        screen = new TerminalScreen(terminal);
+        screen.setCursorPosition(null);
+        screen.startScreen();
+        screen.doResizeIfNecessary();
     }
-
     private void draw() throws IOException {
-        screen.clear();
-        hero.draw(screen);
-        screen.refresh();
+        arena.draw(screen);
     }
-
-
     public void run() throws IOException {
-        while(true) {
+        while (true) {
             draw();
             KeyStroke key = screen.readInput();
             processKey(key);
+            if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
+                screen.close();
+            }
             if (key.getKeyType() == KeyType.EOF) {
                 break;
             }
         }
     }
-
     private void processKey(KeyStroke key) throws IOException {
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'w') {
-            moveHero(hero.moveUp());
-        }
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 's') {
-            moveHero(hero.moveDown());
-        }
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'd') {
-            moveHero(hero.moveRight());
-        }
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'a') {
-            moveHero(hero.moveLeft());
-        }
-        if (key.getKeyType() == KeyType.ArrowUp) {
-            moveHero(hero.moveUp());
-        }
-        if (key.getKeyType() == KeyType.ArrowDown) {
-            moveHero(hero.moveDown());
-        }
-        if (key.getKeyType() == KeyType.ArrowRight) {
-            moveHero(hero.moveRight());
-        }
-        if (key.getKeyType() == KeyType.ArrowLeft) {
-            moveHero(hero.moveLeft());
-        }
-        if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
-            screen.close();
-        }
-    }
-    private void moveHero(Position position) {
-        hero.setPosition(position);
+        arena.processKey(key);
     }
 }
