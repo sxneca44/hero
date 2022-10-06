@@ -35,17 +35,23 @@ public class Arena {
         }
         return walls;
     }
+
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
         this.hero.draw(graphics);
+        for (Wall wall : walls)
+            wall.draw(graphics);
     }
-    public boolean canHeroMove(Position position) {
-        if (position.getX() < width && position.getY() < height) {
-            return true;
+    private boolean canHeroMove(Position position) {
+        for (Wall wall : walls) {
+            if (wall.getPosition().equals(position)) {
+                return false;
+            }
         }
-        else {return false;}
+        return true;
     }
+
     public void moveHero(Position position) {
         if (canHeroMove(position))
             hero.setPosition(position);
