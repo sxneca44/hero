@@ -24,7 +24,10 @@ public class Game {
         screen.doResizeIfNecessary();
     }
     private void draw() throws IOException {
-        arena.draw(screen);
+        this.screen.clear();
+        this.arena.draw(screen.newTextGraphics());
+        this.screen.refresh();
+
     }
     public void run() throws IOException {
         while (true) {

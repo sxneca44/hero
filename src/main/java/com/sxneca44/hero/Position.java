@@ -1,7 +1,6 @@
 package com.sxneca44.hero;
 
 public class Position {
-    private Hero hero;
     public int getX() {
         return x;
     }
