@@ -23,7 +23,7 @@ public class Wall {
     public void draw(TextGraphics graphics) {
         graphics.setForegroundColor(TextColor.Factory.fromString("#D21FB2"));
         graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
+        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "#");
     }
 
 }
