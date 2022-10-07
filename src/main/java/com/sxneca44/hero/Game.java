@@ -14,8 +14,8 @@ public class Game {
     private Screen screen;
     private Arena arena;
     public Game() throws IOException {
-        arena = new Arena(40, 50);
-        TerminalSize terminalSize = new TerminalSize(40, 20);
+        arena = new Arena(220, 50);
+        TerminalSize terminalSize = new TerminalSize(220, 50);
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
         Terminal terminal = terminalFactory.createTerminal();
         screen = new TerminalScreen(terminal);

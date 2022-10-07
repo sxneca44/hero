@@ -15,13 +15,31 @@ public class Arena {
     private int width;
     private int height;
     private Hero hero;
+
+    private Wall wall = new Wall (this.width, this.height);
     private List<Wall> walls;
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
     public Arena(int width, int height) {
-        this.walls = createWalls();
-        hero = new Hero(10, 10);
+        this.hero = new Hero(10, 10);
         this.width = width;
         this.height = height;
+        this.walls = createWalls();
     }
     private List<Wall> createWalls() {
         List<Wall> walls = new ArrayList<>();
@@ -39,9 +57,10 @@ public class Arena {
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
-        this.hero.draw(graphics);
-        for (Wall wall : walls)
+        for (Wall wall : walls) {
             wall.draw(graphics);
+        }
+        this.hero.draw(graphics);
     }
     private boolean canHeroMove(Position position) {
         for (Wall wall : walls) {
