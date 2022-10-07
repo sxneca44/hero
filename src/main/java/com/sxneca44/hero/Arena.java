@@ -10,6 +10,7 @@ import com.googlecode.lanterna.input.KeyType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
     private int width;
@@ -18,6 +19,8 @@ public class Arena {
 
     private Wall wall = new Wall (this.width, this.height);
     private List<Wall> walls;
+    private List<Coin> coins;
+    private Coin coin;
 
     public int getHeight() {
         return height;
@@ -34,12 +37,22 @@ public class Arena {
     public void setWidth(int width) {
         this.width = width;
     }
+    private void retrieveCoins() {
+        for (Coin coin : coins) {
+            if (this.hero.getPosition().equals(coin.getPosition())) {
+                coins.remove(coin);
+                break;
+            }
+
+        }
+    }
 
     public Arena(int width, int height) {
         this.hero = new Hero(10, 10);
         this.width = width;
         this.height = height;
         this.walls = createWalls();
+        this.coins = createCoins();
     }
     private List<Wall> createWalls() {
         List<Wall> walls = new ArrayList<>();
@@ -53,12 +66,23 @@ public class Arena {
         }
         return walls;
     }
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        List<Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            coins.add(new Coin(random.nextInt(width - 2) + 1,
+                    random.nextInt(height - 2) + 1));
+        return coins;
+    }
 
     public void draw(TextGraphics graphics) {
         graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
         graphics.fillRectangle(new TerminalPosition(0,0), new TerminalSize(width, height), ' ');
         for (Wall wall : walls) {
             wall.draw(graphics);
+        }
+        for (Coin coin : coins) {
+            coin.draw(graphics);
         }
         this.hero.draw(graphics);
     }
@@ -100,5 +124,6 @@ public class Arena {
         if (key.getKeyType() == KeyType.ArrowLeft) {
             moveHero(hero.moveLeft());
         }
+        retrieveCoins();
     }
 }
