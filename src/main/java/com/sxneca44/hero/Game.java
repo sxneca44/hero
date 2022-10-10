@@ -29,12 +29,19 @@ public class Game {
         this.screen.refresh();
 
     }
+
     public void run() throws IOException {
         while (true) {
             draw();
             KeyStroke key = screen.readInput();
             processKey(key);
             if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q') {
+                screen.close();
+            }
+            if (arena.retrieveCoins()) {
+                screen.close();
+            }
+            if (arena.verifyMonsterCollisions()) {
                 screen.close();
             }
             if (key.getKeyType() == KeyType.EOF) {
